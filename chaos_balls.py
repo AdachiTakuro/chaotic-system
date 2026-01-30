@@ -62,7 +62,7 @@ frames = 0
 class Balls():
     trail = True
     balls = list()
-    def __init__(self, name, color, radius, thicc, posx, posy, sound="metalmicrowave.wav"):
+    def __init__(self, name, color, radius, thicc, posx, posy, sound="metalmicrowave.wav", growth_rate=1.7, speed_boost=1.0005):
         Balls.balls.append(self)
         
         self.name   = name
@@ -76,6 +76,8 @@ class Balls():
         self.vely   = 0
         self.acc    = g/fps
         self.track  = list()
+        self.growth_rate = growth_rate  # 衝突ごとに増加するサイズ
+        self.speed_boost = speed_boost  # 衝突ごとに速度を増加させる係数
 
 
     def drawball(self):
@@ -98,6 +100,8 @@ class Balls():
             
             pygame.mixer.Sound.play(pygame.mixer.Sound(self.sound))
 
+            # ボールのサイズを増加
+            self.radius += self.growth_rate
 
             while sqrt((x-self.posx)**2 + (y-self.posy)**2) > (bigr - self.radius):
                 step = 0.2
@@ -116,8 +120,9 @@ class Balls():
 
             reflected = dx-2*dot(n,d)*nx, dy-2*dot(n,d)*ny
 
-            self.velx = reflected[0]
-            self.vely = -reflected[1]
+            # 反射後の速度を設定し、speed_boostで速度を増加
+            self.velx = reflected[0] * self.speed_boost
+            self.vely = -reflected[1] * self.speed_boost
 
             # a shitty fix to speed's gradual loss
 
@@ -151,7 +156,7 @@ def draw_cricle(color, radius, thicc, posx, posy):
 
 
 # redball   = Balls("red ball", red, 8, 0, width//2-bigr+20, height//2-59, "bm.wav")
-redball   = Balls("red ball", golden, 8, 0, width//2-bigr+10, height//2, "golf_ball.wav")
+redball   = Balls("red ball", golden, 8, 0, width//2-bigr+10, height//2, "bm.wav")
 redball.vely = -5
 # greenball = Balls("green ball", algeablue, 8, 0, width//2+bigr-20, height//2-50, "golf_ball.wav")
 # yellowball = Balls("green ball", magenta2, 8, 0, width//3, height//2,"trm.wav")
