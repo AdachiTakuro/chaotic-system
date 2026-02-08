@@ -64,6 +64,7 @@ magenta      = (255,  13, 130)
 magenta2     = (214,   0, 100)
 bg = deepblue
 
+
 # g = -0.1
 g = -9.81
 bigr = width//2 - 40 # rad of big circle (縦長画面の幅に収まるように)
