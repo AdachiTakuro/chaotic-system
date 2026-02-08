@@ -12,6 +12,7 @@ start_time = t.time()
 fps = 123456
 width, height = 590, 470
 
+
 # Centers window
 x, y = 1360 - width, 40
 os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (x, y)
